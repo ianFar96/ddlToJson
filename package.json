@@ -1,0 +1,11 @@
+{
+  "name": "ddltojson",
+  "version": "0.0.1",
+  "description": "Covert ddl files to json",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Ian Farré",
+  "license": "MIT"
+}
