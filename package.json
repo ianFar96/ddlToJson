@@ -1,6 +1,6 @@
 {
   "name": "ddltojson",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Covert ddl files to json",
   "main": "dist/index.js",
   "scripts": {
