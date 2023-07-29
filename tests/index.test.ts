@@ -6,7 +6,7 @@ import { Statement } from '../types/statement';
 import inventoryJson from './fixtures/inventory.json';
 
 describe.only('DDl to JSON casting', () => {
-  it.only('should cast addresses ddl properly', async () => {
+  it('should cast addresses ddl properly', async () => {
     const addressesDdl = `
       -- MySQL dump 10.13  Distrib 8.0.29, for Linux (x86_64)
       --
@@ -123,6 +123,6 @@ describe.only('DDl to JSON casting', () => {
   it('should cast inventory.ddl file properly', async () => {
     const ddlFileContents = await readFile('tests/fixtures/inventory.ddl');
     const result = ddlToJson(ddlFileContents.toString());
-    assert.strictEqual(result, inventoryJson);
+    assert.deepStrictEqual(result, inventoryJson);
   });
 });

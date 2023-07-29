@@ -1,1 +1,193 @@
-{}
+[
+  {
+    "statement": "CREATE",
+    "name": "addresses",
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "constraints": "NOT NULL AUTO_INCREMENT"
+      },
+      {
+        "name": "customer_id",
+        "type": "int",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "street",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "city",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "state",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "zip",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "type",
+        "type": "enum('SHIPPING','BILLING','LIVING')",
+        "constraints": "NOT NULL"
+      }
+    ],
+    "primaryKeys": [
+      "id"
+    ],
+    "foreignkeys": [
+      {
+        "column": "customer_id",
+        "references": {
+          "table": "customers",
+          "column": "id"
+        }
+      }
+    ]
+  },
+  {
+    "statement": "CREATE",
+    "name": "customers",
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "constraints": "NOT NULL AUTO_INCREMENT"
+      },
+      {
+        "name": "first_name",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "last_name",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "email",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      }
+    ],
+    "primaryKeys": [
+      "id"
+    ],
+    "foreignkeys": []
+  },
+  {
+    "statement": "CREATE",
+    "name": "orders",
+    "columns": [
+      {
+        "name": "order_number",
+        "type": "int",
+        "constraints": "NOT NULL AUTO_INCREMENT"
+      },
+      {
+        "name": "order_date",
+        "type": "date",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "purchaser",
+        "type": "int",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "quantity",
+        "type": "int",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "product_id",
+        "type": "int",
+        "constraints": "NOT NULL"
+      }
+    ],
+    "primaryKeys": [
+      "order_number"
+    ],
+    "foreignkeys": [
+      {
+        "column": "purchaser",
+        "references": {
+          "table": "customers",
+          "column": "id"
+        }
+      },
+      {
+        "column": "product_id",
+        "references": {
+          "table": "products",
+          "column": "id"
+        }
+      }
+    ]
+  },
+  {
+    "statement": "CREATE",
+    "name": "products",
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "constraints": "NOT NULL AUTO_INCREMENT"
+      },
+      {
+        "name": "name",
+        "type": "varchar(255)",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "description",
+        "type": "varchar(512)",
+        "constraints": "DEFAULT NULL"
+      },
+      {
+        "name": "weight",
+        "type": "float",
+        "constraints": "DEFAULT NULL"
+      }
+    ],
+    "primaryKeys": [
+      "id"
+    ],
+    "foreignkeys": []
+  },
+  {
+    "statement": "CREATE",
+    "name": "products_on_hand",
+    "columns": [
+      {
+        "name": "product_id",
+        "type": "int",
+        "constraints": "NOT NULL"
+      },
+      {
+        "name": "quantity",
+        "type": "int",
+        "constraints": "NOT NULL"
+      }
+    ],
+    "primaryKeys": [
+      "product_id"
+    ],
+    "foreignkeys": [
+      {
+        "column": "product_id",
+        "references": {
+          "table": "products",
+          "column": "id"
+        }
+      }
+    ]
+  }
+]
