@@ -6,8 +6,11 @@
  * https://stackoverflow.com/a/3891672/7277753
  */
 
-export const getCreateTableRegex = () => /CREATE TABLE (?<name>.*?) (?<rest>\(.*?);/gms;
+export const getCreateTableRegex = () => /CREATE TABLE (?<name>.*?) (?<rest>\(.*?);/gmsi;
 export const getColumnDefinitionRegex = () => /^(?<name>.*?|".*?"|`.*?`|\[.*?\])\s(?<type>(?:\w+\s*\([^)]+\))|\S+)\s?(?<constraints>.*)?$/;
 export const getNameWrappingCharactersRegex = () => /`|"|\[|\]/gm;
-export const getPrimaryKeyDefinitionRegex = () => /PRIMARY KEY \((?<columns>.*?)\)/gm;
-export const getForeignKeyDefinitionRegex = () => /FOREIGN KEY \((?<column>.*?)\) REFERENCES (?<referenceTable>.*?)\s?\((?<referenceColumn>.*?)\)/gm;
+export const getPrimaryKeyDefinitionRegex = () => /PRIMARY KEY \((?<columns>.*?)\)/gmi;
+export const getForeignKeyDefinitionRegex = () => /FOREIGN KEY \((?<column>.*?)\) REFERENCES (?<referenceTable>.*?)\s?\((?<referenceColumn>.*?)\)/gmi;
+export const getInlineForeignKeyDefinitionRegex = () => /REFERENCES (?<referenceTable>.*?)\s?\((?<referenceColumn>.*?)\)/gmi;
+export const getInlinePrimaryKeyDefinitionRegex = () => /PRIMARY KEY/gmi;
+export const getUnsupportedKeywordsRegex = () => /^KEY|UNIQUE|CHECK/gmi;

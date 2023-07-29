@@ -33,8 +33,8 @@ describe('test parseCreateTableStatements', () => {
         type: 'varchar(255)',
         constraints: ''
       }],
-      primaryKeys: [],
-      foreignkeys: []
+      primaryKey: [],
+      foreignKeys: []
     }];
     
     assert.deepStrictEqual(statements, expectedStatements);
@@ -57,8 +57,8 @@ describe('test parseCreateTableStatements', () => {
         type: 'TEXT',
         constraints: 'NOT NULL'
       }],
-      primaryKeys: [],
-      foreignkeys: []
+      primaryKey: [],
+      foreignKeys: []
     }];
     
     assert.deepStrictEqual(statements, expectedStatements);
@@ -68,7 +68,7 @@ describe('test parseCreateTableStatements', () => {
 describe('test parseColumnDefinition', () => {
   it('should work with complex data types', () => {
     const line = 'type enum("SHIPPING","BILLING","LIVING") NOT NULL';
-    const column = parseColumnDefinition(line);
+    const {column, isPrimaryKey, foreignKey} = parseColumnDefinition(line);
 
     const expectedColumn: ColumnDefinition = {
       name: 'type',
@@ -76,11 +76,13 @@ describe('test parseColumnDefinition', () => {
       constraints: 'NOT NULL'
     };
     assert.deepStrictEqual(column, expectedColumn);
+    assert.deepStrictEqual(foreignKey, undefined);
+    assert.deepStrictEqual(isPrimaryKey, false);
   });
 
   it('should work with complex constraints', () => {
     const line = 'Address TEXT CHECK (LENGTH(Address) <= 500)';
-    const column = parseColumnDefinition(line);
+    const {column, isPrimaryKey, foreignKey} = parseColumnDefinition(line);
 
     const expectedColumn: ColumnDefinition = {
       name: 'Address',
@@ -88,6 +90,45 @@ describe('test parseColumnDefinition', () => {
       constraints: 'CHECK (LENGTH(Address) <= 500)'
     };
     assert.deepStrictEqual(column, expectedColumn);
+    assert.deepStrictEqual(foreignKey, undefined);
+    assert.deepStrictEqual(isPrimaryKey, false);
+  });
+
+  it('should mark column as primary key with Standard SQL, PostgreSQL and SQLite dialects', () => {
+    const line = 'ID INTEGER PRIMARY KEY NOT NULL';
+    const {column, isPrimaryKey, foreignKey} = parseColumnDefinition(line);
+
+    const expectedColumn: ColumnDefinition = {
+      name: 'ID',
+      type: 'INTEGER',
+      constraints: 'PRIMARY KEY NOT NULL'
+    };
+    assert.deepStrictEqual(isPrimaryKey, true);
+    assert.deepStrictEqual(column, expectedColumn);
+    assert.deepStrictEqual(foreignKey, undefined);
+  });
+
+  it('should parse the foreign key definition with PostgreSQL dialect', () => {
+    const line = 'Table1ID INT REFERENCES Table1(ID) ON DELETE CASCADE';
+    const {column, isPrimaryKey, foreignKey} = parseColumnDefinition(line);
+    
+    const expectedColumn: ColumnDefinition = {
+      name: 'Table1ID',
+      type: 'INT',
+      constraints: 'REFERENCES Table1(ID) ON DELETE CASCADE'
+    };
+
+    const expectedForeignKey: ForeignKeyDefinition = {
+      column: 'Table1ID',
+      references: {
+        table: 'Table1',
+        column: 'ID'
+      }
+    };
+
+    assert.deepStrictEqual(foreignKey, expectedForeignKey);
+    assert.deepStrictEqual(column, expectedColumn);
+    assert.deepStrictEqual(isPrimaryKey, false);
   });
 });
 

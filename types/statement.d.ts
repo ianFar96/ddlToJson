@@ -7,8 +7,8 @@ export type Statement = BaseStatement & (
   {
     statement: 'CREATE',
     columns: ColumnDefinition[]
-    primaryKeys: string[],
-    foreignkeys: ForeignKeyDefinition[],
+    primaryKey: string[],
+    foreignKeys: ForeignKeyDefinition[],
   }
 )
 

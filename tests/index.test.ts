@@ -4,6 +4,7 @@ import ddlToJson from '../lib/index';
 import { readFile } from 'node:fs/promises';
 import { Statement } from '../types/statement';
 import inventoryJson from './fixtures/inventory.json';
+import inventoryLowercaseJson from './fixtures/inventory.lowercase.json';
 
 describe('DDl to JSON casting', () => {
   it('should cast addresses ddl properly', async () => {
@@ -102,8 +103,8 @@ describe('DDl to JSON casting', () => {
             constraints: 'NOT NULL',
           }
         ],
-        primaryKeys: ['id'],
-        foreignkeys: [
+        primaryKey: ['id'],
+        foreignKeys: [
           {
             column: 'customer_id',
             references: {
@@ -124,5 +125,11 @@ describe('DDl to JSON casting', () => {
     const ddlFileContents = await readFile('tests/fixtures/inventory.ddl');
     const result = ddlToJson(ddlFileContents.toString());
     assert.deepStrictEqual(result, inventoryJson);
+  });
+
+  it('should cast inventory.ddl file properly with all commands in lowercase', async () => {
+    const ddlFileContents = await readFile('tests/fixtures/inventory.ddl');
+    const result = ddlToJson(ddlFileContents.toString().toLowerCase());
+    assert.deepStrictEqual(result, inventoryLowercaseJson);
   });
 });

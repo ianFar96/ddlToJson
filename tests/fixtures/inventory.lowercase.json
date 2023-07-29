@@ -6,37 +6,37 @@
       {
         "name": "id",
         "type": "int",
-        "constraints": "NOT NULL AUTO_INCREMENT"
+        "constraints": "not null auto_increment"
       },
       {
         "name": "customer_id",
         "type": "int",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "street",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "city",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "state",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "zip",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "type",
-        "type": "enum('SHIPPING','BILLING','LIVING')",
-        "constraints": "NOT NULL"
+        "type": "enum('shipping','billing','living')",
+        "constraints": "not null"
       }
     ],
     "primaryKey": [
@@ -59,22 +59,22 @@
       {
         "name": "id",
         "type": "int",
-        "constraints": "NOT NULL AUTO_INCREMENT"
+        "constraints": "not null auto_increment"
       },
       {
         "name": "first_name",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "last_name",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "email",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       }
     ],
     "primaryKey": [
@@ -89,27 +89,27 @@
       {
         "name": "order_number",
         "type": "int",
-        "constraints": "NOT NULL AUTO_INCREMENT"
+        "constraints": "not null auto_increment"
       },
       {
         "name": "order_date",
         "type": "date",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "purchaser",
         "type": "int",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "quantity",
         "type": "int",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "product_id",
         "type": "int",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       }
     ],
     "primaryKey": [
@@ -139,22 +139,22 @@
       {
         "name": "id",
         "type": "int",
-        "constraints": "NOT NULL AUTO_INCREMENT"
+        "constraints": "not null auto_increment"
       },
       {
         "name": "name",
         "type": "varchar(255)",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "description",
         "type": "varchar(512)",
-        "constraints": "DEFAULT NULL"
+        "constraints": "default null"
       },
       {
         "name": "weight",
         "type": "float",
-        "constraints": "DEFAULT NULL"
+        "constraints": "default null"
       }
     ],
     "primaryKey": [
@@ -169,12 +169,12 @@
       {
         "name": "product_id",
         "type": "int",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       },
       {
         "name": "quantity",
         "type": "int",
-        "constraints": "NOT NULL"
+        "constraints": "not null"
       }
     ],
     "primaryKey": [
