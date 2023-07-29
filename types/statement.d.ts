@@ -8,14 +8,14 @@ export type Statement = BaseStatement & (
     statement: 'CREATE',
     columns: ColumnDefinition[]
     primaryKeys: string[],
-    foreignkeys?: ForeignKeyDefinition[],
+    foreignkeys: ForeignKeyDefinition[],
   }
 )
 
 export type ColumnDefinition = {
   name: string,
   type: string,
-  constraints?: string
+  constraints: string
 }
 
 export type ForeignKeyDefinition = {

@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { Statement } from '../types/statement';
 import inventoryJson from './fixtures/inventory.json';
 
-describe.only('DDl to JSON casting', () => {
+describe('DDl to JSON casting', () => {
   it('should cast addresses ddl properly', async () => {
     const addressesDdl = `
       -- MySQL dump 10.13  Distrib 8.0.29, for Linux (x86_64)

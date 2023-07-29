@@ -105,6 +105,7 @@ function splitTextByCommas(text: string) {
   return results;
 }
 
+const unsupportedKeywords = ['KEY', 'UNIQUE', 'CHECK'];
 function parseTableDefinition(definitionLines: string[]) {
   const columns: ColumnDefinition[] = [];
   let primaryKeys: string[] = [];
@@ -112,16 +113,21 @@ function parseTableDefinition(definitionLines: string[]) {
   
   for (const line of definitionLines) {
     switch (true) {
-    case getColumnDefinitionRegex().test(line):
-      columns.push(parseColumnDefinition(line));
-      break;
-
     case getPrimaryKeyDefinitionRegex().test(line):
       primaryKeys = parsePrimaryKeyDefinition(line);
       break;
 
     case getForeignKeyDefinitionRegex().test(line):
       foreignKeys.push(parseForeignKeyDefinition(line));
+      break;
+
+    // Skip lines with keyword we do not support
+    // Any other line will be considered a column definition
+    case unsupportedKeywords.some(keyword => line.startsWith(keyword)):
+      break;
+
+    case getColumnDefinitionRegex().test(line):
+      columns.push(parseColumnDefinition(line));
       break;
     }
   }
@@ -133,19 +139,19 @@ function parseTableDefinition(definitionLines: string[]) {
   };
 }
 
-function parseColumnDefinition(line: string) {
+export function parseColumnDefinition(line: string) {
   const groups = getColumnDefinitionRegex().exec(line)!.groups!;
 
   const columnDefinition: ColumnDefinition = {
     name: groups.name.replace(getNameWrappingCharactersRegex(), ''),
     type: groups.type,
-    constraints: groups.constraints
+    constraints: groups.constraints || ''
   };
 
   return columnDefinition;
 }
 
-function parsePrimaryKeyDefinition(line: string) {
+export function parsePrimaryKeyDefinition(line: string) {
   const groups = getPrimaryKeyDefinitionRegex().exec(line)!.groups!;
 
   const primaryKeys = groups.columns
@@ -155,7 +161,7 @@ function parsePrimaryKeyDefinition(line: string) {
   return primaryKeys;
 }
 
-function parseForeignKeyDefinition(line: string) {
+export function parseForeignKeyDefinition(line: string) {
   const groups = getForeignKeyDefinitionRegex().exec(line)!.groups!;
 
   const foreignKeyDefinition: ForeignKeyDefinition = {
