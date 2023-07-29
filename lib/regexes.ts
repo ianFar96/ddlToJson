@@ -9,3 +9,5 @@
 export const getCreateTableRegex = () => /CREATE TABLE (?<name>.*?) (?<rest>\(.*?);/gms;
 export const getColumnDefinitionRegex = () => /^(?<name>".*"|`.*`|\[.*\])?\s(?<type>(?:\w+\s*\([^)]+\))|\S+)\s(?<constraints>.*)$/gm;
 export const getNameWrappingCharactersRegex = () => /`|"|\[|\]/gm;
+export const getPrimaryKeyDefinitionRegex = () => /PRIMARY KEY \((?<columns>.*?)\)/gm;
+export const getForeignKeyDefinitionRegex = () => /FOREIGN KEY \((?<column>.*?)\) REFERENCES (?<referenceTable>.*?)\s?\((?<referenceColumn>.*?)\)/gm;

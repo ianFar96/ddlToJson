@@ -1,5 +1,5 @@
 import { ColumnDefinition, ForeignKeyDefinition, Statement } from '../../types/statement';
-import { getColumnDefinitionRegex, getCreateTableRegex, getNameWrappingCharactersRegex } from '../regexes';
+import { getColumnDefinitionRegex, getCreateTableRegex, getForeignKeyDefinitionRegex, getNameWrappingCharactersRegex, getPrimaryKeyDefinitionRegex } from '../regexes';
 
 export function parseCreateTableStatements(ddlFileContents: string) {
   const statements: Statement[] = [];
@@ -100,27 +100,36 @@ function splitTextByCommas(text: string) {
     }
   }
 
+  results.push(acc);
+
   return results;
 }
 
 function parseTableDefinition(definitionLines: string[]) {
   const columns: ColumnDefinition[] = [];
-  const primaryKeys: string[] = [];
-  const foreignkeys: ForeignKeyDefinition[] = [];
+  let primaryKeys: string[] = [];
+  const foreignKeys: ForeignKeyDefinition[] = [];
   
   for (const line of definitionLines) {
-    if (getColumnDefinitionRegex().test(line)) {
+    switch (true) {
+    case getColumnDefinitionRegex().test(line):
       columns.push(parseColumnDefinition(line));
+      break;
+
+    case getPrimaryKeyDefinitionRegex().test(line):
+      primaryKeys = parsePrimaryKeyDefinition(line);
+      break;
+
+    case getForeignKeyDefinitionRegex().test(line):
+      foreignKeys.push(parseForeignKeyDefinition(line));
+      break;
     }
   }
-
-  console.log({columns});
-  
 
   return {
     columns,
     primaryKeys,
-    foreignkeys
+    foreignkeys: foreignKeys
   };
 }
 
@@ -134,4 +143,28 @@ function parseColumnDefinition(line: string) {
   };
 
   return columnDefinition;
+}
+
+function parsePrimaryKeyDefinition(line: string) {
+  const groups = getPrimaryKeyDefinitionRegex().exec(line)!.groups!;
+
+  const primaryKeys = groups.columns
+    .replace(getNameWrappingCharactersRegex(), '')
+    .replace(/\s/gm, '')
+    .split(',');
+  return primaryKeys;
+}
+
+function parseForeignKeyDefinition(line: string) {
+  const groups = getForeignKeyDefinitionRegex().exec(line)!.groups!;
+
+  const foreignKeyDefinition: ForeignKeyDefinition = {
+    column: groups.column.replace(getNameWrappingCharactersRegex(), ''),
+    references: {
+      table: groups.referenceTable.replace(getNameWrappingCharactersRegex(), ''),
+      column: groups.referenceColumn.replace(getNameWrappingCharactersRegex(), '')
+    }
+  };
+
+  return foreignKeyDefinition;
 }

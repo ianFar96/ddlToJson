@@ -105,7 +105,6 @@ describe.only('DDl to JSON casting', () => {
         primaryKeys: ['id'],
         foreignkeys: [
           {
-            name: 'addresses_ibfk_1',
             column: 'customer_id',
             references: {
               table: 'customers',
@@ -118,7 +117,7 @@ describe.only('DDl to JSON casting', () => {
 
     const result = ddlToJson(addressesDdl);
     
-    assert.strictEqual(result, expectedResult);
+    assert.deepStrictEqual(result, expectedResult);
   });
 
   it('should cast inventory.ddl file properly', async () => {

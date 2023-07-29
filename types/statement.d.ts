@@ -19,7 +19,6 @@ export type ColumnDefinition = {
 }
 
 export type ForeignKeyDefinition = {
-  name: string,
   column: string,
   references: {
     table: string,
