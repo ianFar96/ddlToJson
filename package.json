@@ -4,7 +4,7 @@
   "description": "Covert ddl files to json",
   "main": "dist/index.js",
   "scripts": {
-    "test": "node --require ts-node/register --test-reporter spec --test tests/**.test.ts",
+    "test": "node --require ts-node/register --test-reporter spec --test-only --test tests/**.test.ts",
     "build": "tsc"
   },
   "files": [

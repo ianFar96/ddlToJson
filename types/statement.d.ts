@@ -1,6 +1,6 @@
 export type BaseStatement = {
   statement: 'CREATE',
-  entity: string
+  name: string
 }
 
 export type Statement = BaseStatement & (
@@ -15,8 +15,7 @@ export type Statement = BaseStatement & (
 export type ColumnDefinition = {
   name: string,
   type: string,
-  default?: unknown,
-  constraints?: string[]
+  constraints?: string
 }
 
 export type ForeignKeyDefinition = {

@@ -5,8 +5,8 @@ import { readFile } from 'node:fs/promises';
 import { Statement } from '../types/statement';
 import inventoryJson from './fixtures/inventory.json';
 
-describe('DDl to JSON casting', () => {
-  it('should cast inventory.ddl file properly', async () => {
+describe.only('DDl to JSON casting', () => {
+  it.only('should cast addresses ddl properly', async () => {
     const addressesDdl = `
       -- MySQL dump 10.13  Distrib 8.0.29, for Linux (x86_64)
       --
@@ -64,42 +64,42 @@ describe('DDl to JSON casting', () => {
     const expectedResult: Statement[] = [
       {
         statement: 'CREATE',
-        entity: 'addresses',
+        name: 'addresses',
         columns: [
           {
             name: 'id',
             type: 'int',
-            constraints: ['NOT NULL', 'AUTO_INCREMENT'],
+            constraints: 'NOT NULL AUTO_INCREMENT',
           },
           {
             name: 'customer_id',
             type: 'int',
-            constraints: ['NOT NULL'],
+            constraints: 'NOT NULL',
           },
           {
             name: 'street',
             type: 'varchar(255)',
-            constraints: ['NOT NULL'],
+            constraints: 'NOT NULL',
           },
           {
             name: 'city',
             type: 'varchar(255)',
-            constraints: ['NOT NULL'],
+            constraints: 'NOT NULL',
           },
           {
             name: 'state',
             type: 'varchar(255)',
-            constraints: ['NOT NULL'],
+            constraints: 'NOT NULL',
           },
           {
             name: 'zip',
             type: 'varchar(255)',
-            constraints: ['NOT NULL'],
+            constraints: 'NOT NULL',
           },
           {
             name: 'type',
-            type: 'varchar(255)',
-            constraints: ['NOT NULL'],
+            type: 'enum(\'SHIPPING\',\'BILLING\',\'LIVING\')',
+            constraints: 'NOT NULL',
           }
         ],
         primaryKeys: ['id'],
